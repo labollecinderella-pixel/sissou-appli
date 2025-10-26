@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Mon Profil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* En-tête avec bouton MON PROFIL */
+        .header {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-button {
+            background: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .profile-button:active {
+            transform: scale(0.98);
+            background: #1a1a1a;
+        }
+
+        .flag {
+            position: absolute;
+            right: 20px;
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .flag:active {
+            transform: scale(1.2);
+        }
+
+        /* Conteneur principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Colonne de gauche verticale */
+        .left-column {
+            width: 1cm;
+            background: #f8f9fa;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Sections de la colonne */
+        .column-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .column-section:active {
+            background: #e8eaed;
+        }
+
+        .section-missions {
+            height: 5.2cm;
+        }
+
+        .section-canal {
+            height: 6.6cm;
+        }
+
+        .section-reseau {
+            height: 6.6cm;
+        }
+
+        .section-pister {
+            height: 2.8cm;
+        }
+
+        /* Texte vertical - empilé comme un panneau MOTEL */
+        .vertical-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .vertical-text span {
+            display: block;
+            line-height: 1;
+        }
+
+        /* Zone fonctionnelle centrale */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Zone MISSIONS */
+        .missions-zone {
+            height: 5.2cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+
+        .missions-text {
+            font-size: 18px;
+            color: #5f6368;
+            font-weight: 500;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Zone CANAL */
+        .canal-zone {
+            height: 6.6cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            background: white;
+        }
+
+        .gender-symbol {
+            font-size: 80px;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .male-symbol {
+            color: #4a90e2;
+        }
+
+        .female-symbol {
+            color: #ff69b4;
+        }
+
+        .gender-symbol:active {
+            transform: scale(1.15);
+        }
+
+        .vs-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c2c2c;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Zone RÉSEAU avec carte du monde */
+        .reseau-zone {
+            height: 6.6cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .world-map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #worldMap {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Zone PISTER */
+        .pister-zone {
+            height: 2.8cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 10px 20px;
+            background: white;
+        }
+
+        .action-button {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            width: 5cm;
+            height: 1.5cm;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .action-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            background: #e8eaed;
+        }
+
+        .button-text {
+            font-size: 13px;
+            font-weight: 900;
+            color: #2c2c2c;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            line-height: 1;
+        }
+
+        /* Modal pour affichage du pseudo */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: modalAppear 0.3s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #2c2c2c;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .pseudo-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a90e2;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            word-break: break-all;
+            letter-spacing: 2px;
+        }
+
+        .modal-close {
+            background: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal-close:active {
+            transform: scale(0.95);
+            background: #1a1a1a;
+        }
+
+        .horizontal-line {
+            width: 100%;
+            height: 1px;
+            background: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .profile-button {
+                padding: 10px 30px;
+                font-size: 14px;
+            }
+
+            .flag {
+                font-size: 24px;
+            }
+
+            .gender-symbol {
+                font-size: 60px;
+            }
+
+            .vs-text {
+                font-size: 20px;
+            }
+
+            .action-button {
+                width: 4cm;
+                height: 1.2cm;
+            }
+
+            .button-text {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <div class="header">
+        <button class="profile-button" onclick="openProfile()">MON PROFIL</button>
+        <div class="flag" onclick="changeLanguage()">🇫🇷</div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <!-- Colonne de gauche -->
+        <div class="left-column">
+            <div class="column-section section-missions" onclick="selectSection('missions')">
+                <div class="vertical-text">
+                    <span>M</span><span>I</span><span>S</span><span>S</span><span>I</span><span>O</span><span>N</span><span>S</span>
+                </div>
+            </div>
+            <div class="column-section section-canal" onclick="selectSection('canal')">
+                <div class="vertical-text">
+                    <span>C</span><span>A</span><span>N</span><span>A</span><span>L</span>
+                </div>
+            </div>
+            <div class="column-section section-reseau" onclick="selectSection('reseau')">
+                <div class="vertical-text">
+                    <span>R</span><span>É</span><span>S</span><span>E</span><span>A</span><span>U</span>
+                </div>
+            </div>
+            <div class="column-section section-pister" onclick="selectSection('pister')">
+                <div class="vertical-text">
+                    <span>P</span><span>I</span><span>S</span><span>T</span><span>E</span><span>R</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone centrale fonctionnelle -->
+        <div class="content-area">
+            <!-- Zone MISSIONS -->
+            <div class="missions-zone">
+                <div class="missions-text">(Zone de missions)</div>
+            </div>
+            
+            <div class="horizontal-line"></div>
+
+            <!-- Zone CANAL -->
+            <div class="canal-zone">
+                <div class="gender-symbol male-symbol" onclick="selectGender('male')">♂</div>
+                <div class="vs-text">VS</div>
+                <div class="gender-symbol female-symbol" onclick="selectGender('female')">♀</div>
+            </div>
+            
+            <div class="horizontal-line"></div>
+
+            <!-- Zone RÉSEAU avec carte du monde -->
+            <div class="reseau-zone">
+                <div class="world-map-container">
+                    <svg id="worldMap" viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#d5e8f0;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#9cc5d9;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#6fa8c4;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Fond océan -->
+                        <rect width="2000" height="1000" fill="url(#oceanGradient)"/>
+                        
+                        <!-- AMÉRIQUE DU NORD -->
+                        <path d="M 150,300 L 180,280 L 210,270 L 240,265 L 270,265 L 300,270 L 330,280 L 360,295 L 385,315 L 405,340 L 420,370 L 430,405 L 435,440 L 435,475 L 430,510 L 420,540 L 405,565 L 385,585 L 360,598 L 330,605 L 300,605 L 270,598 L 245,585 L 225,565 L 210,540 L 200,510 L 195,475 L 195,440 L 200,405 L 210,370 L 225,340 L 240,320 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Alaska -->
+                        <path d="M 80,220 L 110,215 L 135,220 L 155,235 L 165,255 L 160,275 L 145,290 L 120,295 L 95,285 L 80,265 L 75,245 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AMÉRIQUE CENTRALE -->
+                        <path d="M 300,608 L 315,615 L 328,625 L 338,638 L 343,652 L 340,665 L 330,675 L 315,680 L 300,678 L 288,670 L 283,658 L 285,645 L 292,630 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AMÉRIQUE DU SUD -->
+                        <path d="M 320,685 L 345,695 L 368,710 L 388,730 L 405,755 L 418,785 L 428,820 L 433,860 L 433,900 L 428,940 L 418,975 L 403,1005 L 383,1030 L 358,1048 L 330,1058 L 300,1060 L 270,1055 L 245,1043 L 225,1023 L 210,998 L 200,968 L 195,933 L 195,893 L 200,853 L 210,813 L 225,778 L 245,748 L 270,725 L 295,708 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- GROENLAND -->
+                        <path d="M 550,150 L 590,145 L 625,155 L 655,175 L 675,205 L 685,240 L 680,275 L 665,305 L 640,325 L 605,335 L 570,330 L 540,315 L 520,290 L 510,260 L 510,225 L 520,195 L 535,170 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- ISLANDE -->
+                        <path d="M 485,285 L 500,283 L 512,288 L 518,298 L 515,310 L 505,318 L 490,320 L 478,315 L 473,305 L 475,295 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- EUROPE -->
+                        <!-- Scandinavie -->
+                        <path d="M 900,280 L 920,275 L 938,280 L 950,295 L 955,315 L 950,335 L 938,350 L 920,358 L 900,358 L 885,348 L 878,333 L 878,315 L 885,298 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Europe de l'Ouest -->
+                        <path d="M 860,360 L 885,358 L 910,365 L 930,378 L 945,398 L 950,420 L 945,442 L 930,460 L 910,470 L 885,473 L 860,468 L 840,455 L 828,435 L 825,413 L 830,390 L 843,373 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Europe de l'Est / Russie -->
+                        <path d="M 950,365 L 1000,360 L 1050,365 L 1100,378 L 1150,398 L 1200,425 L 1250,460 L 1300,505 L 1340,555 L 1365,610 L 1375,665 L 1370,720 L 1350,770 L 1320,810 L 1280,840 L 1235,860 L 1185,870 L 1135,870 L 1085,860 L 1040,840 L 1000,810 L 970,770 L 950,720 L 940,665 L 938,610 L 945,555 L 958,505 L 975,460 L 995,420 L 1015,388 L 1035,368 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AFRIQUE -->
+                        <path d="M 870,520 L 900,515 L 930,518 L 960,528 L 988,545 L 1013,568 L 1035,598 L 1053,633 L 1065,673 L 1073,718 L 1075,768 L 1073,818 L 1065,868 L 1050,913 L 1028,953 L 1000,985 L 965,1008 L 925,1023 L 883,1028 L 840,1023 L 803,1008 L 773,983 L 750,950 L 735,910 L 728,865 L 728,815 L 735,765 L 750,715 L 773,670 L 803,630 L 835,598 L 860,573 L 870,548 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Madagascar -->
+                        <path d="M 1095,830 L 1108,828 L 1118,835 L 1123,848 L 1123,865 L 1118,883 L 1108,898 L 1095,905 L 1083,903 L 1073,895 L 1068,880 L 1068,863 L 1073,848 L 1083,835 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- MOYEN-ORIENT -->
+                        <path d="M 1040,480 L 1065,478 L 1088,485 L 1105,500 L 1115,520 L 1118,543 L 1113,565 L 1100,583 L 1080,593 L 1058,595 L 1038,588 L 1025,573 L 1020,553 L 1023,530 L 1030,508 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- ASIE CENTRALE -->
+                        <path d="M 1200,430 L 1250,425 L 1300,430 L 1345,445 L 1380,470 L 1400,500 L 1410,535 L 1405,570 L 1385,600 L 1355,620 L 1315,630 L 1270,630 L 1230,620 L 1200,600 L 1180,570 L 1170,535 L 1175,500 L 1185,470 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- INDE -->
+                        <path d="M 1270,635 L 1295,633 L 1318,640 L 1338,653 L 1353,673 L 1363,698 L 1365,725 L 1360,753 L 1348,778 L 1328,798 L 1303,810 L 1275,815 L 1250,810 L 1228,795 L 1213,773 L 1205,745 L 1205,715 L 1213,688 L 1228,665 L 1248,648 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- CHINE -->
+                        <path d="M 1410,440 L 1465,438 L 1520,448 L 1570,470 L 1610,503 L 1640,545 L 1658,593 L 1663,645 L 1655,695 L 1635,738 L 1605,773 L 1565,798 L 1520,813 L 1470,818 L 1420,813 L 1375,798 L 1340,773 L 1315,738 L 1300,695 L 1295,645 L 1300,595 L 1315,553 L 1340,518 L 1370,493 L 1405,478 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- ASIE DU SUD-EST -->
+                        <path d="M 1520,820 L 1545,818 L 1568,828 L 1585,845 L 1595,868 L 1595,893 L 1585,915 L 1568,930 L 1545,938 L 1520,938 L 1498,928 L 1483,910 L 1478,888 L 1483,865 L 1498,845 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- INDONÉSIE (simplifié) -->
+                        <path d="M 1550,940 L 1575,938 L 1595,948 L 1603,963 L 1600,980 L 1588,993 L 1568,1000 L 1545,998 L 1528,988 L 1523,973 L 1528,958 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- JAPON -->
+                        <path d="M 1700,485 L 1715,483 L 1728,490 L 1735,503 L 1735,520 L 1728,535 L 1715,545 L 1700,548 L 1688,540 L 1683,525 L 1685,508 L 1693,495 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AUSTRALIE -->
+                        <path d="M 1480,880 L 1535,875 L 1590,885 L 1640,908 L 1680,943 L 1708,988 L 1723,1040 L 1723,1095 L 1708,1145 L 1680,1185 L 1640,1213 L 1590,1228 L 1535,1233 L 1480,1228 L 1433,1210 L 1398,1180 L 1375,1140 L 1363,1093 L 1363,1040 L 1375,988 L 1398,948 L 1433,918 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- NOUVELLE-ZÉLANDE -->
+                        <path d="M 1790,1100 L 1803,1098 L 1813,1105 L 1818,1118 L 1815,1133 L 1805,1145 L 1790,1150 L 1778,1143 L 1773,1130 L 1775,1115 Z M 1795,1160 L 1808,1158 L 1818,1165 L 1823,1180 L 1820,1198 L 1808,1213 L 1793,1220 L 1780,1215 L 1773,1200 L 1775,1183 L 1783,1170 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="horizontal-line"></div>
+
+            <!-- Zone PISTER -->
+            <div class="pister-zone">
+                <div class="action-button" onclick="openSearch()">
+                    <div class="button-text">RECHERCHE</div>
+                </div>
+                <div class="action-button" onclick="openPseudos()">
+                    <div class="button-text">PSEUDOS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour afficher le pseudo généré -->
+    <div class="modal" id="pseudoModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-title">VOTRE PSEUDO UNIQUE</div>
+            <div class="pseudo-display" id="pseudoDisplay"></div>
+            <button class="modal-close" onclick="closeModal()">FERMER</button>
+        </div>
+    </div>
+
+    <script>
+        function openProfile() {
+            console.log('Ouverture du profil');
+        }
+
+        function changeLanguage() {
+            console.log('Changement de langue');
+        }
+
+        function selectSection(section) {
+            console.log('Section sélectionnée:', section);
+        }
+
+        function selectGender(gender) {
+            console.log('Genre sélectionné:', gender);
+        }
+
+        function openSearch() {
+            window.open('https://trends.google.com/trends/', '_blank');
+        }
+
+        function openPseudos() {
+            const pseudo = generateUniquePseudo();
+            document.getElementById('pseudoDisplay').textContent = pseudo;
+            document.getElementById('pseudoModal').classList.add('active');
+        }
+
+        function generateUniquePseudo() {
+            const alphabets = {
+                french: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                arabic: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي',
+                russian: 'абвгдежзийклмнопрстуфхцчшщъыьэюя',
+                chinese: '的一是不了人我在有他这为之大来以个中上们到说国和地也子时道出而要于就下得可你年生自会那后能对着事其里所去行过家十用发天如然作方成者多日都三小军二无同么经法当起与好看学进种将还分此心前面又定见只主没公从',
+                hindi: 'अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह'
+            };
+
+            const alphabetKeys = Object.keys(alphabets);
+            const length = Math.floor(Math.random() * 3) + 8;
+            let pseudo = '';
+            let lastAlphabet = null;
+
+            for (let i = 0; i < length; i++) {
+                let availableAlphabets = alphabetKeys.filter(key => key !== lastAlphabet);
+                let chosenAlphabet = availableAlphabets[Math.floor(Math.random() * availableAlphabets.length)];
+                let letters = alphabets[chosenAlphabet];
+                let randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                pseudo += randomLetter;
+                lastAlphabet = chosenAlphabet;
+            }
+
+            return pseudo;
+        }
+
+        function closeModal() {
+            document.getElementById('pseudoModal').classList.remove('active');
+        }
+
+        document.addEventListener('touchstart', function(){}, {passive: true});
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Mon Profil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* En-tête avec bouton MON PROFIL */
+        .header {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-button {
+            background: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .profile-button:active {
+            transform: scale(0.98);
+            background: #1a1a1a;
+        }
+
+        .flag {
+            position: absolute;
+            right: 20px;
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .flag:active {
+            transform: scale(1.2);
+        }
+
+        /* Conteneur principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Colonne de gauche verticale */
+        .left-column {
+            width: 1cm;
+            background: #f8f9fa;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Sections de la colonne */
+        .column-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .column-section:active {
+            background: #e8eaed;
+        }
+
+        .section-missions {
+            height: 5.2cm;
+        }
+
+        .section-canal {
+            height: 6.6cm;
+        }
+
+        .section-reseau {
+            height: 6.6cm;
+        }
+
+        .section-pister {
+            height: 2.8cm;
+        }
+
+        /* Texte vertical - empilé comme un panneau MOTEL */
+        .vertical-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .vertical-text span {
+            display: block;
+            line-height: 1;
+        }
+
+        /* Zone fonctionnelle centrale */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Zone MISSIONS */
+        .missions-zone {
+            height: 5.2cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+
+        .missions-text {
+            font-size: 18px;
+            color: #5f6368;
+            font-weight: 500;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Zone CANAL */
+        .canal-zone {
+            height: 6.6cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            background: white;
+        }
+
+        .gender-symbol {
+            font-size: 80px;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .male-symbol {
+            color: #4a90e2;
+        }
+
+        .female-symbol {
+            color: #ff69b4;
+        }
+
+        .gender-symbol:active {
+            transform: scale(1.15);
+        }
+
+        .vs-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c2c2c;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Zone RÉSEAU avec carte du monde */
+        .reseau-zone {
+            height: 6.6cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .world-map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #worldMap {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Zone PISTER */
+        .pister-zone {
+            height: 2.8cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 10px 20px;
+            background: white;
+        }
+
+        .action-button {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            width: 5cm;
+            height: 1.5cm;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .action-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            background: #e8eaed;
+        }
+
+        .button-text {
+            font-size: 13px;
+            font-weight: 900;
+            color: #2c2c2c;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            line-height: 1;
+        }
+
+        /* Modal pour affichage du pseudo */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: modalAppear 0.3s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #2c2c2c;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .pseudo-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a90e2;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            word-break: break-all;
+            letter-spacing: 2px;
+        }
+
+        .modal-close {
+            background: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal-close:active {
+            transform: scale(0.95);
+            background: #1a1a1a;
+        }
+
+        .horizontal-line {
+            width: 100%;
+            height: 1px;
+            background: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .profile-button {
+                padding: 10px 30px;
+                font-size: 14px;
+            }
+
+            .flag {
+                font-size: 24px;
+            }
+
+            .gender-symbol {
+                font-size: 60px;
+            }
+
+            .vs-text {
+                font-size: 20px;
+            }
+
+            .action-button {
+                width: 4cm;
+                height: 1.2cm;
+            }
+
+            .button-text {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <div class="header">
+        <button class="profile-button" onclick="openProfile()">MON PROFIL</button>
+        <div class="flag" onclick="changeLanguage()">🇫🇷</div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <!-- Colonne de gauche -->
+        <div class="left-column">
+            <div class="column-section section-missions" onclick="selectSection('missions')">
+                <div class="vertical-text">
+                    <span>M</span><span>I</span><span>S</span><span>S</span><span>I</span><span>O</span><span>N</span><span>S</span>
+                </div>
+            </div>
+            <div class="column-section section-canal" onclick="selectSection('canal')">
+                <div class="vertical-text">
+                    <span>C</span><span>A</span><span>N</span><span>A</span><span>L</span>
+                </div>
+            </div>
+            <div class="column-section section-reseau" onclick="selectSection('reseau')">
+                <div class="vertical-text">
+                    <span>R</span><span>É</span><span>S</span><span>E</span><span>A</span><span>U</span>
+                </div>
+            </div>
+            <div class="column-section section-pister" onclick="selectSection('pister')">
+                <div class="vertical-text">
+                    <span>P</span><span>I</span><span>S</span><span>T</span><span>E</span><span>R</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone centrale fonctionnelle -->
+        <div class="content-area">
+            <!-- Zone MISSIONS -->
+            <div class="missions-zone">
+                <div class="missions-text">(Zone de missions)</div>
+            </div>
+            
+            <div class="horizontal-line"></div>
+
+            <!-- Zone CANAL -->
+            <div class="canal-zone">
+                <div class="gender-symbol male-symbol" onclick="selectGender('male')">♂</div>
+                <div class="vs-text">VS</div>
+                <div class="gender-symbol female-symbol" onclick="selectGender('female')">♀</div>
+            </div>
+            
+            <div class="horizontal-line"></div>
+
+            <!-- Zone RÉSEAU avec carte du monde -->
+            <div class="reseau-zone">
+                <div class="world-map-container">
+                    <svg id="worldMap" viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#d5e8f0;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#9cc5d9;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#6fa8c4;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Fond océan -->
+                        <rect width="2000" height="1000" fill="url(#oceanGradient)"/>
+                        
+                        <!-- AMÉRIQUE DU NORD -->
+                        <path d="M 150,300 L 180,280 L 210,270 L 240,265 L 270,265 L 300,270 L 330,280 L 360,295 L 385,315 L 405,340 L 420,370 L 430,405 L 435,440 L 435,475 L 430,510 L 420,540 L 405,565 L 385,585 L 360,598 L 330,605 L 300,605 L 270,598 L 245,585 L 225,565 L 210,540 L 200,510 L 195,475 L 195,440 L 200,405 L 210,370 L 225,340 L 240,320 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Alaska -->
+                        <path d="M 80,220 L 110,215 L 135,220 L 155,235 L 165,255 L 160,275 L 145,290 L 120,295 L 95,285 L 80,265 L 75,245 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AMÉRIQUE CENTRALE -->
+                        <path d="M 300,608 L 315,615 L 328,625 L 338,638 L 343,652 L 340,665 L 330,675 L 315,680 L 300,678 L 288,670 L 283,658 L 285,645 L 292,630 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AMÉRIQUE DU SUD -->
+                        <path d="M 320,685 L 345,695 L 368,710 L 388,730 L 405,755 L 418,785 L 428,820 L 433,860 L 433,900 L 428,940 L 418,975 L 403,1005 L 383,1030 L 358,1048 L 330,1058 L 300,1060 L 270,1055 L 245,1043 L 225,1023 L 210,998 L 200,968 L 195,933 L 195,893 L 200,853 L 210,813 L 225,778 L 245,748 L 270,725 L 295,708 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- GROENLAND -->
+                        <path d="M 550,150 L 590,145 L 625,155 L 655,175 L 675,205 L 685,240 L 680,275 L 665,305 L 640,325 L 605,335 L 570,330 L 540,315 L 520,290 L 510,260 L 510,225 L 520,195 L 535,170 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- ISLANDE -->
+                        <path d="M 485,285 L 500,283 L 512,288 L 518,298 L 515,310 L 505,318 L 490,320 L 478,315 L 473,305 L 475,295 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- EUROPE -->
+                        <!-- Scandinavie -->
+                        <path d="M 900,280 L 920,275 L 938,280 L 950,295 L 955,315 L 950,335 L 938,350 L 920,358 L 900,358 L 885,348 L 878,333 L 878,315 L 885,298 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Europe de l'Ouest -->
+                        <path d="M 860,360 L 885,358 L 910,365 L 930,378 L 945,398 L 950,420 L 945,442 L 930,460 L 910,470 L 885,473 L 860,468 L 840,455 L 828,435 L 825,413 L 830,390 L 843,373 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Europe de l'Est / Russie -->
+                        <path d="M 950,365 L 1000,360 L 1050,365 L 1100,378 L 1150,398 L 1200,425 L 1250,460 L 1300,505 L 1340,555 L 1365,610 L 1375,665 L 1370,720 L 1350,770 L 1320,810 L 1280,840 L 1235,860 L 1185,870 L 1135,870 L 1085,860 L 1040,840 L 1000,810 L 970,770 L 950,720 L 940,665 L 938,610 L 945,555 L 958,505 L 975,460 L 995,420 L 1015,388 L 1035,368 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AFRIQUE -->
+                        <path d="M 870,520 L 900,515 L 930,518 L 960,528 L 988,545 L 1013,568 L 1035,598 L 1053,633 L 1065,673 L 1073,718 L 1075,768 L 1073,818 L 1065,868 L 1050,913 L 1028,953 L 1000,985 L 965,1008 L 925,1023 L 883,1028 L 840,1023 L 803,1008 L 773,983 L 750,950 L 735,910 L 728,865 L 728,815 L 735,765 L 750,715 L 773,670 L 803,630 L 835,598 L 860,573 L 870,548 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- Madagascar -->
+                        <path d="M 1095,830 L 1108,828 L 1118,835 L 1123,848 L 1123,865 L 1118,883 L 1108,898 L 1095,905 L 1083,903 L 1073,895 L 1068,880 L 1068,863 L 1073,848 L 1083,835 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- MOYEN-ORIENT -->
+                        <path d="M 1040,480 L 1065,478 L 1088,485 L 1105,500 L 1115,520 L 1118,543 L 1113,565 L 1100,583 L 1080,593 L 1058,595 L 1038,588 L 1025,573 L 1020,553 L 1023,530 L 1030,508 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- ASIE CENTRALE -->
+                        <path d="M 1200,430 L 1250,425 L 1300,430 L 1345,445 L 1380,470 L 1400,500 L 1410,535 L 1405,570 L 1385,600 L 1355,620 L 1315,630 L 1270,630 L 1230,620 L 1200,600 L 1180,570 L 1170,535 L 1175,500 L 1185,470 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- INDE -->
+                        <path d="M 1270,635 L 1295,633 L 1318,640 L 1338,653 L 1353,673 L 1363,698 L 1365,725 L 1360,753 L 1348,778 L 1328,798 L 1303,810 L 1275,815 L 1250,810 L 1228,795 L 1213,773 L 1205,745 L 1205,715 L 1213,688 L 1228,665 L 1248,648 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- CHINE -->
+                        <path d="M 1410,440 L 1465,438 L 1520,448 L 1570,470 L 1610,503 L 1640,545 L 1658,593 L 1663,645 L 1655,695 L 1635,738 L 1605,773 L 1565,798 L 1520,813 L 1470,818 L 1420,813 L 1375,798 L 1340,773 L 1315,738 L 1300,695 L 1295,645 L 1300,595 L 1315,553 L 1340,518 L 1370,493 L 1405,478 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- ASIE DU SUD-EST -->
+                        <path d="M 1520,820 L 1545,818 L 1568,828 L 1585,845 L 1595,868 L 1595,893 L 1585,915 L 1568,930 L 1545,938 L 1520,938 L 1498,928 L 1483,910 L 1478,888 L 1483,865 L 1498,845 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- INDONÉSIE (simplifié) -->
+                        <path d="M 1550,940 L 1575,938 L 1595,948 L 1603,963 L 1600,980 L 1588,993 L 1568,1000 L 1545,998 L 1528,988 L 1523,973 L 1528,958 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- JAPON -->
+                        <path d="M 1700,485 L 1715,483 L 1728,490 L 1735,503 L 1735,520 L 1728,535 L 1715,545 L 1700,548 L 1688,540 L 1683,525 L 1685,508 L 1693,495 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- AUSTRALIE -->
+                        <path d="M 1480,880 L 1535,875 L 1590,885 L 1640,908 L 1680,943 L 1708,988 L 1723,1040 L 1723,1095 L 1708,1145 L 1680,1185 L 1640,1213 L 1590,1228 L 1535,1233 L 1480,1228 L 1433,1210 L 1398,1180 L 1375,1140 L 1363,1093 L 1363,1040 L 1375,988 L 1398,948 L 1433,918 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                        
+                        <!-- NOUVELLE-ZÉLANDE -->
+                        <path d="M 1790,1100 L 1803,1098 L 1813,1105 L 1818,1118 L 1815,1133 L 1805,1145 L 1790,1150 L 1778,1143 L 1773,1130 L 1775,1115 Z M 1795,1160 L 1808,1158 L 1818,1165 L 1823,1180 L 1820,1198 L 1808,1213 L 1793,1220 L 1780,1215 L 1773,1200 L 1775,1183 L 1783,1170 Z" 
+                              fill="#34495e" stroke="#2c3e50" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="horizontal-line"></div>
+
+            <!-- Zone PISTER -->
+            <div class="pister-zone">
+                <div class="action-button" onclick="openSearch()">
+                    <div class="button-text">RECHERCHE</div>
+                </div>
+                <div class="action-button" onclick="openPseudos()">
+                    <div class="button-text">PSEUDOS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour afficher le pseudo généré -->
+    <div class="modal" id="pseudoModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-title">VOTRE PSEUDO UNIQUE</div>
+            <div class="pseudo-display" id="pseudoDisplay"></div>
+            <button class="modal-close" onclick="closeModal()">FERMER</button>
+        </div>
+    </div>
+
+    <script>
+        function openProfile() {
+            console.log('Ouverture du profil');
+        }
+
+        function changeLanguage() {
+            console.log('Changement de langue');
+        }
+
+        function selectSection(section) {
+            console.log('Section sélectionnée:', section);
+        }
+
+        function selectGender(gender) {
+            console.log('Genre sélectionné:', gender);
+        }
+
+        function openSearch() {
+            window.open('https://trends.google.com/trends/', '_blank');
+        }
+
+        function openPseudos() {
+            const pseudo = generateUniquePseudo();
+            document.getElementById('pseudoDisplay').textContent = pseudo;
+            document.getElementById('pseudoModal').classList.add('active');
+        }
+
+        function generateUniquePseudo() {
+            const alphabets = {
+                french: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                arabic: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي',
+                russian: 'абвгдежзийклмнопрстуфхцчшщъыьэюя',
+                chinese: '的一是不了人我在有他这为之大来以个中上们到说国和地也子时道出而要于就下得可你年生自会那后能对着事其里所去行过家十用发天如然作方成者多日都三小军二无同么经法当起与好看学进种将还分此心前面又定见只主没公从',
+                hindi: 'अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह'
+            };
+
+            const alphabetKeys = Object.keys(alphabets);
+            const length = Math.floor(Math.random() * 3) + 8;
+            let pseudo = '';
+            let lastAlphabet = null;
+
+            for (let i = 0; i < length; i++) {
+                let availableAlphabets = alphabetKeys.filter(key => key !== lastAlphabet);
+                let chosenAlphabet = availableAlphabets[Math.floor(Math.random() * availableAlphabets.length)];
+                let letters = alphabets[chosenAlphabet];
+                let randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                pseudo += randomLetter;
+                lastAlphabet = chosenAlphabet;
+            }
+
+            return pseudo;
+        }
+
+        function closeModal() {
+            document.getElementById('pseudoModal').classList.remove('active');
+        }
+
+        document.addEventListener('touchstart', function(){}, {passive: true});
+    </script>
+</body>
+</html>
